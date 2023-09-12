@@ -67,9 +67,9 @@ if __name__ == "__main__":
     gpu = args.gpu
 
     wav_files = [
-        ['./test_data/si_dt_05/421/421a010g.wav'],
-        ['./test_data/si_dt_05/423/423a0111.wav'],
-        ['./test_data/si_dt_05/053/053a050v.wav'],
+        ['./test_audio/clean/421/421a010g.wav'],
+        ['./test_audio/clean/423/423a0111.wav'],
+        ['./test_audio/clean/053/053a050v.wav'],
     ]
 
     signals = [np.concatenate([wavfile.read(f)[1].astype(np.float32)
