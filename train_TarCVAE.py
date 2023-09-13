@@ -18,7 +18,7 @@ if __name__ == "__main__":
 
     parser.add_argument('--gpu', '-g', type=int, help="GPU ID (negative value indicates CPU)", default=0)
     parser.add_argument('--dataset', '-i', type=str, help="training dataset", choices=["wsj_train_noisyTarCVAE"], default="wsj_train_noisyTarCVAE")
-    parser.add_argument('--save_root', '-o', type=str, help="path for saving model", default="./model_TarCVAE_GST_noisy/")
+    parser.add_argument('--save_root', '-o', type=str, help="path for saving model", default="./model_TarCVAE/")
 
     parser.add_argument('--epoch', '-e', type=int, help="# of epochs for training", default=1000)
     parser.add_argument('--snapshot', '-s', type=int, help="interval of snapshot", default=100)
