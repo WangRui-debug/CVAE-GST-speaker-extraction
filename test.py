@@ -180,7 +180,7 @@ if __name__ == "__main__":
 
             noisename = args.noise_file
             SNR = args.snr
-            mix_name = f[0:-4] + '_snr' + str(SNR) + '_noisy_office.wav'
+            mix_name = f[0:-4] + '_noisy_snr' + str(SNR) + '.wav'
             SNR_mixed(clean_dir, noisename, os.path.join(save_dir, mix_name), SNR)
 
         mics_normal = mics_signals / np.max(np.abs(mics_signals))
