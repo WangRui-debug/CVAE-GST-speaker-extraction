@@ -6,4 +6,5 @@ For the training data and test data, please access: https://drive.google.com/dri
 For the trained model, please access: https://drive.google.com/drive/folders/1RmMMPMhmmyO30uregZ3fdug3qMFGIdUU?usp=drive_link
 
 # Usage
-1. Train model: bash ./run/
+1. Train IntCVAE_GST model: bash ./run/run_trainGST_IntCVAE_GST.sh
+2. Train TarCVAE moodel: bash ./run
