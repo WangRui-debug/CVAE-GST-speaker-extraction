@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Running test_mvae.py
+# Running train_IntCVAE_with_GST.py
 
 python3 train_IntCVAE_with_GST.py \
 	-i mixture_gst_2-20_noisy_multiFolder \
