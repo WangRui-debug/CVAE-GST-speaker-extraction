@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Running test_mvae.py
+# Running train_TarCVAE.py
 
 python3 train_TarCVAE.py \
 	-i wsj_train_noisyTarCVAE \
