@@ -41,7 +41,7 @@ if __name__ == "__main__":
 
     # Set input directories and data paths
     if config.dataset == "mixture_gst_2-20_noisy_multiFolder":
-        data_root = "./data/mixture_gst_2-20_noisy_multiFolder/"
+        data_root = "./training_data/mixture_gst_2-20_noisy_multiFolder/"
     src_folders = sorted(os.listdir(data_root))
     data_paths = ["{}{}/cspec/".format(data_root, f) for f in src_folders]
     stat_paths = ["{}{}/train_cspecstat.npy".format(data_root, f) for f in src_folders]
