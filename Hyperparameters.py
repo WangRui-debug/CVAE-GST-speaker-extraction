@@ -20,7 +20,7 @@ class Hyperparameters():
     model_path = None
     optimizer_path = None
 
-    eval_text = 'it took me a long time to develop a brain . now that i have it i\'m not going to be silent !'
+    eval_text = 'it took time to develop'
 
 
     lr_step = [500000, 1000000, 2000000]
