@@ -162,9 +162,9 @@ if __name__ == "__main__":
         # os.makedirs(test002, exist_ok=True)
 
         # wavfile.write(os.path.join(test001, 'estimated_signal7.wav'), STFTPara['fs'], sep.astype(np.int16))
-        wavfile.write(os.path.join(clean001, 'm3_60_46ra_3D1_' + str(distance) + 'm_new_office_1.wav'), room.fs,
+        wavfile.write(os.path.join(clean001, 'm3_3D_' + str(distance) + 'm_1.wav'), room.fs,
                       mics_signals[0].astype(np.int16))
-        wavfile.write(os.path.join(clean001, 'm3_60_46ra_3D1_' + str(distance) + 'm_new_office_2.wav'), room.fs,
+        wavfile.write(os.path.join(clean001, 'm3_3D_' + str(distance) + 'm_2.wav'), room.fs,
                       mics_signals[1].astype(np.int16))
 
         # add noise
@@ -180,7 +180,7 @@ if __name__ == "__main__":
 
             noisename = args.noise_file
             SNR = args.snr
-            mix_name = f[0:-4] + '_snr' + str(SNR) + '_DEMAND_noisy_office.wav'
+            mix_name = f[0:-4] + '_snr' + str(SNR) + '_noisy_office.wav'
             SNR_mixed(clean_dir, noisename, os.path.join(save_dir, mix_name), SNR)
 
         mics_normal = mics_signals / np.max(np.abs(mics_signals))
@@ -199,7 +199,7 @@ if __name__ == "__main__":
             print("Processing {}...".format(input_dir), end="")
             output_root = args.output_root
             output_root = os.path.join(output_root,
-                                       'output_m3_60_46ra_TwoGST' + str(distance) + '_snr_DEMAND_office_SNR' + str(SNR) + '_m_3D1_new/')
+                                       'output_m3_' + str(distance) + 'm_SNR_' + str(SNR) + '_3D/')
             os.makedirs(output_root, exist_ok=True)
             save_dir = os.path.join(output_root, f)
             os.makedirs(save_dir, exist_ok=True)
