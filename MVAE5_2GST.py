@@ -318,17 +318,7 @@ def MVAE(X, AlgPara, NNPara, NNPara1, sv, gpu):
 
 
 def gcav_iva(X, n_src=None, W=None, sv=None, lamb=None, c=0., maxiter=100, cost_flag=True, pb=True):
-    """
-    入力：
-    X: サイズが周波数ｘフレーム数ｘチャンネル数の混合信号
-    n_src: 音源数
-    W: 初期分離行列（与えられない場合は自動的に単位行列で初期化する）
-    sv: steering vector
-    lamb: 正則化項のウェイト
-    c: 正則化の度合いを調整するパラメータ
-    maxiter: 更新回数
-    pb: projection backを行うかどうか
-    """
+
 
     # check input parameters
     n_freq, n_frame, n_ch = X.shape
@@ -347,7 +337,7 @@ def gcav_iva(X, n_src=None, W=None, sv=None, lamb=None, c=0., maxiter=100, cost_
 
     Y = np.zeros((n_freq, n_frame, n_src), dtype=X.dtype)
     Y = demix(Y, X, W)
-    cost = np.zeros((3, maxiter))  # 全体コスト, IVAと正則化項それぞれのコスト
+    cost = np.zeros((3, maxiter))  
 
     for it in range(maxiter):
         # update W
@@ -360,10 +350,7 @@ def gcav_iva(X, n_src=None, W=None, sv=None, lamb=None, c=0., maxiter=100, cost_
             # G(r_k) = r_k
             V = np.matmul((X * r_inv[None, :, n, None]).swapaxes(1, 2), np.conj(X)) / n_frame
 
-            # 出力チャネルの順番に正則化をかける
-            # n_sv < n_srcの場合は、後ろのチャンネルに正則化をかけずにAuxIVAの更新式で更新する
             if n < n_sv:
-                # 論文式(14)以下のD、及び(15)~(18)の計算
                 D = V + lamb[n] * np.matmul(sv[:, :, n, None], np.conj(sv[:, :, n, None]).swapaxes(1, 2))
                 D_inv = np.linalg.inv(D)
                 u = np.conj(np.matmul(D_inv, np.linalg.inv(W))[:, :, n, None])
@@ -371,7 +358,6 @@ def gcav_iva(X, n_src=None, W=None, sv=None, lamb=None, c=0., maxiter=100, cost_
                 h = np.matmul(np.matmul(u.swapaxes(1, 2), D), np.conj(u))
                 h_hat = np.matmul(np.matmul(u.swapaxes(1, 2), D), np.conj(u_hat))
 
-                # 式(19) u前の係数の計算
                 coef = np.zeros_like(h, dtype=h.dtype)
                 coef[h_hat == 0] = 1 / np.sqrt(h[h_hat == 0])
                 coef[h_hat != 0] = h_hat[h_hat != 0] * (-1 + np.sqrt(1 + (4 * h[h_hat != 0])
@@ -381,7 +367,6 @@ def gcav_iva(X, n_src=None, W=None, sv=None, lamb=None, c=0., maxiter=100, cost_
                 W[:, n, :] = w[:, :, 0]
 
             else:
-                # AuxIVAのW更新式
                 WV = np.matmul(W, V)
                 W[:, n, :] = np.squeeze(np.conj(np.linalg.solve(WV, np.tile(np.eye(n_src)[:, n, None],
                                                                             (n_freq, 1, 1)))), axis=2)
@@ -408,7 +393,7 @@ def demix(Y, X, W):
     # W: n_freq x n_src x n_ch
     n_freq = Y.shape[0]
     for f in range(n_freq):
-        Y[f] = np.dot(W[f], X[f].T).T  # 矩阵乘法运算
+        Y[f] = np.dot(W[f], X[f].T).T  
 
     return Y
 
@@ -513,7 +498,6 @@ def update_w2(s, r, W, sv):
     sigma = np.einsum('fnp,fnl,fnq->flpq', s, 1 / r, s.conj())
     sigma /= N
     for l in range(L):
-        # 論文式(14)以下のD、及び(15)~(18)の計算
         D = sigma[:, l, ...] + lamb[l] * np.matmul(sv[:, :, l, None], np.conj(sv[:, :, l, None]).swapaxes(1, 2))
         D_inv = np.linalg.inv(D)
         u = np.conj(np.matmul(D_inv, np.linalg.inv(W))[:, :, l, None])
@@ -521,7 +505,6 @@ def update_w2(s, r, W, sv):
         h = np.matmul(np.matmul(u.swapaxes(1, 2), D), np.conj(u))
         h_hat = np.matmul(np.matmul(u.swapaxes(1, 2), D), np.conj(u_hat))
 
-        # 式(19) u前の係数の計算
         coef = np.zeros_like(h, dtype=h.dtype)
         coef[h_hat == 0] = 1 / np.sqrt(h[h_hat == 0])
         coef[h_hat != 0] = h_hat[h_hat != 0] * (-1 + np.sqrt(1 + (4 * h[h_hat != 0])
