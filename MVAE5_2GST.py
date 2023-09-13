@@ -1,6 +1,6 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
-# File: MVAE algorithm (PyTorch ver.)
+# File: CVAE-GST algorithm (PyTorch ver.)
 
 import os
 import argparse
