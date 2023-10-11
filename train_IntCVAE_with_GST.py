@@ -76,7 +76,7 @@ if __name__ == "__main__":
     else:
         device = torch.device("cpu")
 
-    optimizer = torch.optim.Adam(cvae.parameters() + gst.parameters(), lr=config.lrate)
+    optimizer = torch.optim.Adam(cvae.parameters(), lr=config.lrate)
 
     # load pretrained model
     if config.model_path is not None:
