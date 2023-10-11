@@ -8,7 +8,7 @@ import math
 import argparse
 import torch
 import utils
-from net_GST import GST
+from GST import GST
 import net_GST
 import numpy as np
 
@@ -18,7 +18,7 @@ if __name__ == "__main__":
 
     parser.add_argument('--gpu', '-g', type=int, help="GPU ID (negative value indicates CPU)", default=0)
     parser.add_argument('--dataset', '-i', type=str, help="training dataset", choices=["mixture_gst_2-20_noisy_multiFolder"], default="mixture_gst_2-20_noisy_multiFolder")
-    parser.add_argument('--save_root', '-o', type=str, help="path for saving model", default="./model_mixture_new_gst_2-20_noisy_multiFolder_new_1000/")
+    parser.add_argument('--save_root', '-o', type=str, help="path for saving model", default="./model_mixture_new_gst_2-20_noisy_multiFolder_new_1000_op/")
 
     parser.add_argument('--epoch', '-e', type=int, help="# of epochs for training", default=1000)
     parser.add_argument('--snapshot', '-s', type=int, help="interval of snapshot", default=100)
@@ -36,12 +36,12 @@ if __name__ == "__main__":
 
     # =============== Directories and data ===============
     # Make directories and create log file
-    save_path = os.path.join(config.save_root, "mixture_gst_2-20_noisy_multiFolder_new_1000")
+    save_path = os.path.join(config.save_root, "mixture_gst_2-20_noisy_multiFolder_new_1000_op")
     logprint = utils.set_log(save_path, add=False)[1]
 
     # Set input directories and data paths
     if config.dataset == "mixture_gst_2-20_noisy_multiFolder":
-        data_root = "./training_data/mixture_gst_2-20_noisy_multiFolder/"
+        data_root = "./data/mixture_gst_2-20_noisy_multiFolder/"
     src_folders = sorted(os.listdir(data_root))
     data_paths = ["{}{}/cspec/".format(data_root, f) for f in src_folders]
     stat_paths = ["{}{}/train_cspecstat.npy".format(data_root, f) for f in src_folders]
@@ -60,9 +60,9 @@ if __name__ == "__main__":
     n_freq = x_tmp.shape[0] - 1
     del x_tmp
 
-    encoder = net_GST.Encoder(n_freq, 128) # 定义encode的维度，第二维的输入是label的维度
-    decoder = net_GST.Decoder(n_freq, 128)
-    cvae = net_GST.CVAE(encoder, decoder)
+    encoder = net_GST_new.Encoder(n_freq, 128) # 定义encode的维度，第二维的输入是label的维度
+    decoder = net_GST_new.Decoder(n_freq, 128)
+    cvae = net_GST_new.CVAE(encoder, decoder)
     gst = GST()
 
     n_para_enc = sum(p.numel() for p in encoder.parameters())
@@ -149,12 +149,13 @@ if __name__ == "__main__":
                     # to GPU
                     x = torch.from_numpy(np.asarray(mag_x, dtype="float32")).to(device)
                     #l = torch.from_numpy(np.asarray(labels[j], dtype="float32")).to(device)
-                    l = gst(x)
-                    l = np.squeeze(l)
+                    # l = gst(x)
+                    # l = np.squeeze(l)
 
                     # update trainable parameters
                     optimizer.zero_grad()
-                    x_logvar = cvae(x, l)
+                    # x_logvar = cvae(x, l)
+                    x_logvar = cvae(x)
                     loss, kl_loss, rec_loss = cvae.loss(x)
                     loss.backward()
                     optimizer.step()
