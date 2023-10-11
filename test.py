@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 import pyroomacoustics as pra
 from scipy.io import wavfile, savemat
 from scipy import signal
+from GST import GST
 from MVAE5_2GST import MVAE
 from addnoise3 import SNR_mixed
 from function import *
