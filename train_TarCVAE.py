@@ -8,7 +8,6 @@ import math
 import argparse
 import torch
 import utils
-from net_GST import GST
 from GST import GST
 import net_GST
 import numpy as np
